@@ -4,11 +4,12 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ShopPage from "./pages/shop/shop.component";
-import HomePage from "./pages/homepage/homepage.component";
+import Header from "./components/header/header.component";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="shop" element={<ShopPage />} />
