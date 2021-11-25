@@ -2,24 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ShopPage from "./pages/shop/shop.component";
-import Header from "./components/header/header.component";
-import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="shop" element={<ShopPage />} />
-        <Route path="signin" element={<SignInAndSignUpPage />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
