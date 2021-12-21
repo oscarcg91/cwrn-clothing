@@ -5,7 +5,7 @@ import {
   createUserProfileDocument,
 } from "../src/firebase/firebase.utils";
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ShopPage from "./pages/shop/shop.component";
 import { connect } from "react-redux";
 import Header from "./components/header/header.component";
@@ -48,7 +48,15 @@ class App extends React.Component {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="shop" element={<ShopPage />} />
-            <Route path="signin" element={<SignInAndSignUpPage />} />
+            {/* <Route path="signin" element={<SignInAndSignUpPage />} /> */}
+            <Route
+              path="signin"
+              element={
+                <SignInWrapper currentUser={this.props.currentUser}>
+                  <SignInAndSignUpPage />
+                </SignInWrapper>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </React.StrictMode>
@@ -56,8 +64,16 @@ class App extends React.Component {
   }
 }
 
+const SignInWrapper = ({ children, currentUser }) => {
+  return currentUser ? <Navigate to="/" replace /> : children;
+};
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
