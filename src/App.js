@@ -5,8 +5,7 @@ import {
   createUserProfileDocument,
 } from "../src/firebase/firebase.utils";
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import ShopPage from "./pages/shop/shop.component";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
@@ -14,6 +13,8 @@ import { setCurrentUser } from "../src/redux/user/user-actions";
 import { selectCurrentUser } from "./redux/user/user.selector";
 import { createStructuredSelector } from "reselect";
 import CheckOutPage from "./pages/checkout/checkout.component";
+import ShopRouter from "./routes/shop/shop.router";
+import SignInSignOutRouter from "./routes/signinsignout/signinsignout.router";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -48,15 +49,14 @@ class App extends React.Component {
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="shop" element={<ShopPage />} />
+            <Route path="shop/*" element={<ShopRouter />}></Route>
             <Route path="checkout" element={<CheckOutPage />} />
-            {/* <Route path="signin" element={<SignInAndSignUpPage />} /> */}
             <Route
               path="signin"
               element={
-                <SignInWrapper currentUser={this.props.currentUser}>
+                <SignInSignOutRouter currentUser={this.props.currentUser}>
                   <SignInAndSignUpPage />
-                </SignInWrapper>
+                </SignInSignOutRouter>
               }
             />
           </Routes>
@@ -65,10 +65,6 @@ class App extends React.Component {
     );
   }
 }
-
-const SignInWrapper = ({ children, currentUser }) => {
-  return currentUser ? <Navigate to="/" replace /> : children;
-};
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
